@@ -64,7 +64,7 @@ func (a *AsyncStatePersister) fullSync(ctx context.Context, instancesProvider Al
 
 	var err error
 	if a.jitterEnabled {
-		err = a.fullSyncWithJitter(ctx, instances, startTime)
+		err = a.fullSyncWithJitter(ctx, instances)
 	} else {
 		err = a.store.FullSync(ctx, instances, a.batchSize)
 	}
@@ -92,7 +92,7 @@ func (a *AsyncStatePersister) calculateBatchJitterDelay(batchIndex, totalBatches
 	return delay
 }
 
-func (a *AsyncStatePersister) fullSyncWithJitter(ctx context.Context, instances []models.AlertInstance, startTime time.Time) error {
+func (a *AsyncStatePersister) fullSyncWithJitter(ctx context.Context, instances []models.AlertInstance) error {
 	safetyRatio := 0.85
 	availableWindow := time.Duration(float64(a.interval) * safetyRatio)
 
@@ -108,7 +108,7 @@ func (a *AsyncStatePersister) fullSyncWithJitter(ctx context.Context, instances 
 		return err
 	}
 
-	a.log.Debug("Full state sync with jitter done", "duration", time.Since(startTime), "instances", len(instances), "batches", totalBatches, "window", availableWindow)
+	a.log.Debug("Full state sync with jitter completed", "instances", len(instances), "batches", totalBatches, "window", availableWindow)
 	return nil
 }
 

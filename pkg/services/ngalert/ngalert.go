@@ -321,12 +321,7 @@ func (ng *AlertNG) init() error {
 	ng.RecordingWriter = recordingWriter
 
 	schedCfg := schedule.SchedulerCfg{
-		RetryConfig: schedule.RetryConfig{
-			MaxAttempts:         ng.Cfg.UnifiedAlerting.MaxAttempts,
-			InitialRetryDelay:   ng.Cfg.UnifiedAlerting.InitialRetryDelay,
-			MaxRetryDelay:       ng.Cfg.UnifiedAlerting.MaxRetryDelay,
-			RandomizationFactor: ng.Cfg.UnifiedAlerting.RandomizationFactor,
-		},
+		MaxAttempts:          ng.Cfg.UnifiedAlerting.MaxAttempts,
 		C:                    clk,
 		BaseInterval:         ng.Cfg.UnifiedAlerting.BaseInterval,
 		MinRuleInterval:      ng.Cfg.UnifiedAlerting.MinInterval,
@@ -374,9 +369,11 @@ func (ng *AlertNG) init() error {
 		Images:                     ng.ImageService,
 		Clock:                      clk,
 		Historian:                  history,
-		MaxStateSaveConcurrency:    ng.Cfg.UnifiedAlerting.MaxStateSaveConcurrency,
-		StatePeriodicSaveBatchSize: ng.Cfg.UnifiedAlerting.StatePeriodicSaveBatchSize,
-		RulesPerRuleGroupLimit:     ng.Cfg.UnifiedAlerting.RulesPerRuleGroupLimit,
+		MaxStateSaveConcurrency:       ng.Cfg.UnifiedAlerting.MaxStateSaveConcurrency,
+		StatePeriodicSaveBatchSize:    ng.Cfg.UnifiedAlerting.StatePeriodicSaveBatchSize,
+		StatePeriodicSaveInterval:     ng.Cfg.UnifiedAlerting.StatePeriodicSaveInterval,
+		StatePeriodicSaveJitterEnabled: ng.Cfg.UnifiedAlerting.StatePeriodicSaveJitterEnabled,
+		RulesPerRuleGroupLimit:        ng.Cfg.UnifiedAlerting.RulesPerRuleGroupLimit,
 		Tracer:                     ng.tracer,
 		Log:                        log.New("ngalert.state.manager"),
 		ResolvedRetention:          ng.Cfg.UnifiedAlerting.ResolvedAlertRetention,

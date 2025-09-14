@@ -27,6 +27,7 @@ type InstanceWriter interface {
 	SaveAlertInstancesForRule(ctx context.Context, key models.AlertRuleKeyWithGroup, instances []models.AlertInstance) error
 	DeleteAlertInstancesByRule(ctx context.Context, key models.AlertRuleKeyWithGroup) error
 	FullSync(ctx context.Context, instances []models.AlertInstance, batchSize int) error
+	// FullSyncWithJitter performs a full sync with jitter delays between rule groups while maintaining atomicity.
 	FullSyncWithJitter(ctx context.Context, instances []models.AlertInstance, jitterFunc func(int) time.Duration, batchSize int) error
 }
 
